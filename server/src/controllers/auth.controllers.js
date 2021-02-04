@@ -28,12 +28,21 @@ const registrationController = async (req, res) => {
 
     const candidate = await User.findOne(({ email }))
 
-    if (candidate) return res.status(400).json({message: `User with this email ${email} is already exist`})
+    if (candidate) return res.status(400).json({ message: `User with this email is already exist` })
 
     const hashedPassword = await bcrypt.hash(password, 8)
-    await User.create({ email, password: hashedPassword })
+    const newUser = await new User ({ email, password: hashedPassword })
 
-    return res.json({ message: 'User was created' })
+    await newUser.save()
+
+    const token = jwt.sign({ id: newUser._id }, process.env.SECRETKEY, { expiresIn: '1h' })
+
+    const user = serialize(newUser)
+
+    return res.json({
+      token,
+      user
+    })
 
   } catch (e) {
     console.error(e)
@@ -70,8 +79,31 @@ const loginController = async (req, res) => {
 
 }
 
+const authController = async (req, res) => {
+
+  try {
+
+    const candidate = await User.findOne({ _id: req.user.id })
+
+    const token = jwt.sign({ id: candidate.id }, process.env.SECRETKEY, { expiresIn: '1h' })
+
+    const user = serialize(candidate)
+
+    return res.json({
+      token,
+      user
+    })
+
+  } catch (e) {
+    console.error(e)
+    res.send({ message: 'Server error' })
+  }
+
+}
+
 
 module.exports = {
   registrationController,
-  loginController
+  loginController,
+  authController
 }
