@@ -1,7 +1,7 @@
-const { Schema, model, ObjectId } = require('mongoose')
+// const { Schema, model, ObjectId } = require('mongoose')
 
-const File = new Schema({
+// const File = new Schema({
 
-})
+// })
 
-module.exports = model('File', File)
+// module.exports = model('File', File)

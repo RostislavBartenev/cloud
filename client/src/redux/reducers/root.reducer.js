@@ -1,8 +1,8 @@
-import { combineReducers } from "redux"
-import { userReducer } from "./user.reducer"
-import { fileReducer } from "./file.reducer"
+import { combineReducers } from 'redux'
+import { userReducer } from './user.reducer'
+import fileReducer from './file.reducer'
 
-export const rootReducer = combineReducers({
+export default combineReducers({
   user: userReducer,
   files: fileReducer,
 })

@@ -13,8 +13,7 @@ const options = {
 
 const dbConnectionURL = process.env.MONGO_DB
 
-
-let dbConnect = () => {
+const dbConnect = () => {
   mongoose.connect(dbConnectionURL, options, (err) => {
     if (err) return console.log(err)
     console.log('DB connected')

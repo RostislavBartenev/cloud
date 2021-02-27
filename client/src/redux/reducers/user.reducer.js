@@ -15,12 +15,12 @@ export const userReducer = (state = {}, action) => {
         ...state,
         currentUser: {},
         token: '',
-        isAuth: false
+        isAuth: false,
       }
     default:
       return state
   }
 }
 
-export const setUser = user => ({ type: SET_USER, payload: user })
+export const setUser = (user) => ({ type: SET_USER, payload: user })
 export const logout = () => ({ type: LOGOUT })
