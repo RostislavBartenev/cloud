@@ -4,6 +4,12 @@ export default () => {
       currentUser: {},
       isAuth: false,
     },
+
+    files: {
+      files: [],
+      currentDir: null,
+    },
+
   }
 
   return initialValue

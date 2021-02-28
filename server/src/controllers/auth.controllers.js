@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt')
 const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 
+const filesService = require('../services/filesService')
+const File = require('../models/File.Schema')
+
 const User = require('../models/User.Schema')
 
 const serialize = (user) => ({
@@ -29,7 +32,9 @@ const registrationController = async (req, res) => {
 
     await newUser.save()
 
-    const token = jwt.sign({ id: newUser._id }, process.env.SECRETKEY, { expiresIn: '1h' })
+    await filesService.createDir(new File({ user: newUser.id, name: '' }))
+
+    const token = jwt.sign({ id: newUser.id }, process.env.SECRETKEY, { expiresIn: '1h' })
 
     const user = serialize(newUser)
 
